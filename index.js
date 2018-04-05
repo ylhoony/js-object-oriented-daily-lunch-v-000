@@ -9,11 +9,9 @@ let passengerId = 0;
 let tripId = 0;
 
 class Delivery {
-  constructor(meal, customer) {
+  constructor(meal = {}, customer) {
     this.id = ++deliveryId;
-    if(meal) {
       this.mealId = meal.id;
-    }
     if(customer) {
       this.customerId = customer.id;
     }
@@ -44,12 +42,16 @@ class Meal {
     });
   }
   deliveries() {
+    // debugger;
     return store.deliveries.filter(function(delivery) {
+      // debugger;
       return delivery.mealId === this.id;
     }.bind(this));
   }
   customers() {
+    // debugger;
     return this.deliveries().map(function(delivery) {
+      // debugger;
       return delivery.customer();
     })
   }
@@ -62,19 +64,25 @@ class Employer {
     store.employers.push(this);
   }
   employees() {
-    return store.customers.filter(function(customer) {
+    debugger;
+    return store.customers.filter((customer) => {
+      debugger;
       return customer.employerId === this.id;
-    }.bind(this));
+    });
   }
   deliveries() {
+    debugger;
     let deliveryList = this.employees().map(function(employee) {
+      debugger;
       return employee.deliveries();
     });
     let uniqueList = [].concat.apply([], deliveryList);
-    return uniqueList
+    return uniqueList;
   }
   meals() {
+    debugger;
     let mealList = this.deliveries().map(function(delivery) {
+      debugger;
       return delivery.meal();
     });
     let newMealList = [...new Set(mealList)];
@@ -82,7 +90,7 @@ class Employer {
   }
   mealTotals() {
     let allDeliveries = this.deliveries();
-    console.log(allDeliveries);
+    // console.log(allDeliveries);
     let counter = {};
     allDeliveries.forEach(function(delivery, index) {
       if (!counter[delivery.mealId]) {
